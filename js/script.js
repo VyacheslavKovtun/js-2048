@@ -285,20 +285,21 @@
     //lose game
     function loseGame()
     {
-        document.write('ВЫ ПРОИГРАЛИ!');
-        startGame();
+        alert('ВЫ ПРОИГРАЛИ!');
+        setTimeout(startGame(), 3000);
     }
 
     //win game
     function winGame()
     {
-        document.write('ВЫ ВЫИГРАЛИ!');
-        startGame();
+        alert('ВЫ ВЫИГРАЛИ!');
+        setTimeout(startGame(), 3000); 
     }
 
     window.addEventListener('beforeunload', function() 
     {
-        saveScore();
+        if(score != 0)
+            saveScore();
     });
 
     //save score
@@ -310,21 +311,26 @@
     //load score
     function loadScore()
     {
+        const showCount = 5;
         let list = document.querySelector('.history-list');
         for(let i = 0; i < localStorage.length; i++)
         {
-            let key = localStorage.key(i);
-            let score = localStorage.getItem(key);
-            let p = document.createElement('p');
-            p.innerText = parseInt(key) + 1 + ': ' + score;
-            p.style.fontSize = window.innerWidth / 30 + 'px';
-            list.appendChild(p);
+            if(i < showCount) {
+                let key = localStorage.key(i);
+                let score = localStorage.getItem(key);
+                let p = document.createElement('p');
+                p.innerText = parseInt(key) + 1 + ' game: ' + score;
+                p.style.fontSize = window.innerWidth / 50 + 'px';
+                list.appendChild(p);
+            }
         }
     }
 
     //clear the field or start the game
     function startGame()
     {
+        score = 0;
+        scoreField.innerText = 0;
         firstArrayFill();
         fillingArray();
         loadScore();
